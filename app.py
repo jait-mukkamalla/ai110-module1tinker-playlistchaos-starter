@@ -194,31 +194,33 @@ def profile_sidebar():
         value=str(profile.get("name", "")),
     )
 
+    profile["include_mixed"] = st.sidebar.checkbox(
+        "Include Mixed playlist in views",
+        value=bool(profile.get("include_mixed", True)),
+    )
+
+    include_mixed = profile["include_mixed"]
+
     col1, col2 = st.sidebar.columns(2)
     with col1:
         profile["hype_min_energy"] = st.sidebar.slider(
             "Hype min energy",
             min_value=1,
             max_value=10,
-            value=int(profile.get("hype_min_energy", 7)),
+            value=7 if include_mixed else 6,
         )
     with col2:
         profile["chill_max_energy"] = st.sidebar.slider(
             "Chill max energy",
             min_value=1,
             max_value=10,
-            value=int(profile.get("chill_max_energy", 3)),
+            value=3 if include_mixed else 5,
         )
 
     profile["favorite_genre"] = st.sidebar.selectbox(
         "Favorite genre",
         options=["rock", "lofi", "pop", "jazz", "electronic", "ambient", "other"],
         index=0,
-    )
-
-    profile["include_mixed"] = st.sidebar.checkbox(
-        "Include Mixed playlist in views",
-        value=bool(profile.get("include_mixed", True)),
     )
 
     st.sidebar.write("Current profile:", profile["name"])
